@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git([url: 'https://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@github.com/josesegura-persistent/ResultadosEnVivo.git', branch: 'main'])
+        git([url: 'https://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@github.com/josesegura-persistent/ResultadosEnVivo.git', branch: 'master'])
  
       }
     }
