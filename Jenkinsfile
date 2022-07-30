@@ -12,13 +12,12 @@ pipeline {
  
       }
     }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build imagename
-        }
+   stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t josesegurapersistent/flaskapp:latest .'
       }
-    }
+   }
     stage('Deploy Image') {
       steps{
         script {
