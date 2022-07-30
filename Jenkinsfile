@@ -18,21 +18,13 @@ pipeline {
         sh 'docker build -t josesegurapersistent/flaskapp:latest .'
       }
    }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-          }
+    stage('Docker Push') {
+      agent any
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockercredentials', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh 'docker push shanem/spring-petclinic:latest'
         }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
- 
       }
     }
   }
